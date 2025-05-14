@@ -30,7 +30,7 @@ An interactive Streamlit application that leverages DuckDB for fast, in-memory d
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/duckdb-groq-data-analyst.git
+   git clone https://github.com/Genious07/DataAnalystAgent.git
    cd duckdb-groq-data-analyst
    ```
 
