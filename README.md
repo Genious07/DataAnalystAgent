@@ -1,10 +1,10 @@
-# 📊 Data-Analyst Agent
+# Data-Analyst Agent
 
 An interactive Streamlit application that leverages DuckDB for fast, in-memory data analysis and Groq’s AI-powered SQL generation. Upload your CSV or Excel files, ask natural language questions about your data, and get SQL-powered answers instantly.
 
 ---
 
-## 🚀 Features
+## Features
 
 * **Automatic Data Preprocessing**: Handles CSV, XLS, and XLSX files with custom NA values, date parsing, and numeric conversion.
 * **Missing Data Handling**:
@@ -18,14 +18,14 @@ An interactive Streamlit application that leverages DuckDB for fast, in-memory d
 
 ---
 
-## 📋 Prerequisites
+##  Prerequisites
 
 * Python 3.8+
 * A valid Groq API key (set `GROQ_API_KEY` environment variable)
 
 ---
 
-## 🔧 Installation
+##  Installation
 
 1. **Clone the repository**
 
@@ -53,7 +53,7 @@ An interactive Streamlit application that leverages DuckDB for fast, in-memory d
 
 ---
 
-## ⚙️ Configuration
+## ⚙ Configuration
 
 The script for the Streamlit app is `ai_data_analyst.py`. Main configuration:
 
@@ -65,7 +65,7 @@ You can customize NA handling, date parsing logic, or median fill strategy direc
 
 ---
 
-## 🚀 Usage
+##  Usage
 
 1. **Run the Streamlit app**
 
@@ -94,7 +94,7 @@ You can customize NA handling, date parsing logic, or median fill strategy direc
 
 ---
 
-## 🛠️ Code Structure
+##  Code Structure
 
 ```text
 ├── ai_data_analyst.py      # Main Streamlit application
@@ -107,7 +107,7 @@ You can customize NA handling, date parsing logic, or median fill strategy direc
 
 ---
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please open issues or pull requests on GitHub.
 
@@ -119,12 +119,10 @@ Contributions are welcome! Please open issues or pull requests on GitHub.
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
-## 📧 Contact
 
-For questions or feedback, reach out to `youremail@example.com`.
