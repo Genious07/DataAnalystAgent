@@ -8,9 +8,6 @@ import pandas as pd
 import duckdb
 from groq import Groq
 
-# -----------------------------------------------------------------------------
-# CONFIGURATION
-# -----------------------------------------------------------------------------
 API_KEY = os.environ.get("GROQ_API_KEY")
 if not API_KEY:
     st.error("Please set the GROQ_API_KEY environment variable before running.")
@@ -18,9 +15,7 @@ if not API_KEY:
 
 client = Groq(api_key=API_KEY)
 
-# -----------------------------------------------------------------------------
-# UTILITY FUNCTIONS
-# -----------------------------------------------------------------------------
+
 def generate_sql_query(columns: list[str], user_question: str) -> str:
     cols = ", ".join(columns)
     prompt = (
@@ -39,7 +34,7 @@ def generate_sql_query(columns: list[str], user_question: str) -> str:
 
 def preprocess_and_save(uploaded_file) -> tuple[str, list[str]]:
     name = uploaded_file.name.lower()
-    # Define additional NA markers
+   
     na_values = ["NA", "N/A", "missing", "NULL", "null", ""]
     try:
         if name.endswith('.csv'):
@@ -68,41 +63,33 @@ def preprocess_and_save(uploaded_file) -> tuple[str, list[str]]:
         st.error(f"Failed to read file: {e}")
         st.stop()
 
-    # Auto-detect and convert date columns
+  
     for col in df.columns:
         if "date" in col.lower():
             df[col] = pd.to_datetime(df[col], errors='coerce')
 
-    # Auto-convert numeric strings
+   
     for col in df.select_dtypes(include=['object']).columns:
         # Try to convert strings that look numeric
         df[col] = pd.to_numeric(df[col], errors='ignore')
 
-    # --- MISSING DATA HANDLING ---
-    # Numeric columns: fill NaN with median
+  
     num_cols = df.select_dtypes(include=['number']).columns
     for col in num_cols:
         median = df[col].median()
         df[col] = df[col].fillna(median)
 
-    # Object / categorical columns: fill NaN with 'Unknown'
+  
     obj_cols = df.select_dtypes(include=['object']).columns
     for col in obj_cols:
         df[col] = df[col].fillna("Unknown")
 
-    # Date columns: leave NaT as-is or could fill with a sentinel if desired
-    # e.g. df[date_cols] = df[date_cols].fillna(pd.Timestamp("1900-01-01"))
-
-    # Save to a temp CSV for DuckDB ingestion
+ 
     tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
     df.to_csv(tmp.name, index=False, quoting=csv.QUOTE_ALL)
     return tmp.name, list(df.columns)
-
-# -----------------------------------------------------------------------------
-# STREAMLIT APP
-# -----------------------------------------------------------------------------
 st.set_page_config(layout="wide")
-st.title("Data-Analyst Agent")
+st.title("📊 DuckDB + Groq Data-Analyst Agent")
 
 # Initialize history
 if "history" not in st.session_state:
@@ -122,7 +109,6 @@ df = pd.read_csv(csv_path, parse_dates=date_cols)
 st.subheader("Data Preview")
 st.dataframe(df)
 
-# Load into DuckDB
 con = duckdb.connect(':memory:')
 con.execute(f"""
     CREATE TABLE uploaded_data AS 
@@ -148,7 +134,7 @@ if submit:
             )
         except Exception as e:
             err = str(e)
-            # Handle string conversion fallback
+            
             if "Could not convert string" in err:
                 m = re.search(r'WHERE\s+"(.+?)"\s+=\s+\'(.+?)\'', sql)
                 if m:
@@ -171,7 +157,6 @@ if submit:
             else:
                 st.error(f"Error: {err}")
 
-# Display history
 if st.session_state.history:
     st.subheader("Query History")
     for idx, entry in enumerate(reversed(st.session_state.history), 1):
