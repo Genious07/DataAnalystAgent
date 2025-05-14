@@ -89,7 +89,7 @@ def preprocess_and_save(uploaded_file) -> tuple[str, list[str]]:
     df.to_csv(tmp.name, index=False, quoting=csv.QUOTE_ALL)
     return tmp.name, list(df.columns)
 st.set_page_config(layout="wide")
-st.title("📊 DuckDB + Groq Data-Analyst Agent")
+st.title("Data-Analyst Agent")
 
 # Initialize history
 if "history" not in st.session_state:
